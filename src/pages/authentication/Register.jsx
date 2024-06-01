@@ -1,26 +1,54 @@
 import { Helmet } from "react-helmet-async";
-//import Swal from "sweetalert2";
-//import useAxiosPublic from './../../hooks/useAxiosPublic';
-//import useAuth from './../../hooks/useAuth';
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import Swal from "sweetalert2";
+import useAxiosPublic from './../../hooks/useAxiosPublic';
+import useAuth from './../../hooks/useAuth';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { motion } from "framer-motion";
+import useLocations from "../../hooks/useLocations";
+
+const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`
 
 const Register = () => {
-  //const axiosPublic = useAxiosPublic();
-  //const { createUser, updateUserProfile, logOut } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const { createUser, updateUserProfile, logOut } = useAuth();
+
+  // navigation systems
+  const navigate = useNavigate();
+  const locations = useLocation();
+  const from = locations?.state || "/login";
+
   const [passwordError, setPasswordError] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [location] = useLocations();
+  //console.log(location);
+  //const districts = location.map(singleLocation => singleLocation.district)
+  //console.log(districts)
+  const [district, setDistrict] = useState('');
+  const [upazilas, setUpazilas] = useState([]);
+  
+  const handleDistrict = event => {
+    const singleLocation = event.target.value;
+    setDistrict(singleLocation)
+  }
+  //console.log("selected district", district)
+  
+  useEffect(() => {
+    if (district) {
+      const selectedDistrict = location.find(d => d.district === district);
+      setUpazilas(selectedDistrict?.upazilas);
+    } else {
+      setUpazilas([]);
+    }
+  }, [district, location]);
+  //console.log("selected upazilas", upazilas)
 
-  // navigation systems
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // const from = location?.state || "/login";
 
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
@@ -55,55 +83,73 @@ const Register = () => {
     }
   };
 
-  const handleEmailRegister = (event) => {
+  const handleEmailRegister = async(event) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
       setConfirmPasswordError("Passwords do not match");
       return;
     }
-
-    const form = event.target;
     
-    const name = form.name.value;
-    const photo = form.photo.value;
-    const email = form.email.value;
-    const bloodGroup = form.bloodGroup.value;
-    const role = "donor";
-    const status = "active";
+    const form = event.target;
+    const imageFile = form.imageFile.files[0];
 
+    // Create FormData to upload the file
+    const formData = new FormData();
+    formData.append("image", imageFile);
 
-    const userDetails = {name, photo, email, bloodGroup, role, status}
-    console.table(userDetails)
+    try {
+      // Upload the image to imgbb
+      const res = await axiosPublic.post(imageHostingAPI, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      const imageUrl = res.data.data.display_url;
 
-    //Create user and update profile
-    // createUser(email, password)
-    //   .then((userCredential) => {
-    //     const user = userCredential.user;
-    //     console.log(user);
-    //     logOut();
-    //     Swal.fire({
-    //       title: 'Successful!',
-    //       text: 'New user successfully created. Now you can login!',
-    //       icon: 'success',
-    //       confirmButtonText: 'Cool',
-    //     });
-    //     updateUserProfile(name, photo).then(() => {
-    //       navigate(from);
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     console.log(errorCode);
-    //     console.log(errorMessage);
-    //     Swal.fire({
-    //       title: 'Error!',
-    //       text: 'Sorry! We were not able to register your account.',
-    //       icon: 'error',
-    //       confirmButtonText: 'Try Again',
-    //     });
-    //   });
+      const name = form.name.value;
+      const email = form.email.value;
+      const bloodGroup = form.bloodGroup.value;
+      const role = "donor";
+      const status = "active";
+      const district = form.district.value;
+      const upazila = form.upazila.value;
+
+      const userDetails = { name, email, bloodGroup, role, status, district, upazila, photo: imageUrl };
+      console.table(userDetails);
+
+     //Create user and update profile
+      createUser(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          logOut();
+          Swal.fire({
+            title: 'Successful!',
+            text: 'New user successfully created. Now you can login!',
+            icon: 'success',
+            confirmButtonText: 'Cool',
+          });
+          updateUserProfile(name, imageUrl).then(() => {
+            navigate(from);
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Sorry! We were not able to register your account.',
+            icon: 'error',
+            confirmButtonText: 'Try Again',
+          });
+        });
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+      // Handle the error appropriately
+    }
   };
 
   return (
@@ -137,15 +183,13 @@ const Register = () => {
                 />
               </div>
               {/* Photo */}
-              <div>
+              <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Upload Profile Photo :</span>
+                  <span className="label-text">Pick a file for profile image</span>
                 </div>
-                <input
-                  type="text" name="photo" placeholder="Enter a valid URL" required
-                  className="input input-bordered w-full"
-                />
-              </div>
+                <input required name='imageFile'
+                type="file" className="file-input file-input-bordered w-full" />
+              </label>
               {/* Email */}
               <div>
                 <div className="label">
@@ -173,38 +217,47 @@ const Register = () => {
                   <option value="AB-">AB-</option>
                 </select>
               </label>
-              {/* District Group */}
+              {/* District */}
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Select your Blood Group</span>
+                  <span className="label-text">Select Your Home District</span>
                 </div>
-                <select className="select select-bordered" name="district">
+                <select onChange={handleDistrict}
+                className="select select-bordered" name="district">
                   <option disabled defaultValue>Pick one</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
+                  {
+                    location.map(singleLocation =>
+                      <option key={singleLocation._id} 
+                      value={singleLocation.district}>
+                        {singleLocation.district}
+                      </option>
+                    )
+                  }
+                  {
+                    upazilas?.map((singleLocation ,index) =>
+                      <option key={index} 
+                      value={singleLocation}>
+                        {singleLocation}
+                      </option>
+                    )
+                  }
                 </select>
               </label>
-              {/*  Upazila Group */}
+              {/* upazila */}
               <label className="form-control w-full">
                 <div className="label">
-                  <span className="label-text">Select your Blood Group</span>
+                  <span className="label-text">Select Your Upazila</span>
                 </div>
                 <select className="select select-bordered" name="upazila">
                   <option disabled defaultValue>Pick one</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
+                  {
+                    upazilas?.map((singleLocation ,index) =>
+                      <option key={index} 
+                      value={singleLocation}>
+                        {singleLocation}
+                      </option>
+                    )
+                  }
                 </select>
               </label>
               {/* Password */}
