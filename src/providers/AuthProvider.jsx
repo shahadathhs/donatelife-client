@@ -48,28 +48,25 @@ const AuthProvider = ({children}) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       // if user exist then issue a token
-      const userEmail = { email: currentUser?.email || user?.email }
-      if (currentUser) {
-        // get token and store client
-        axiosPublic.post('/jwt', userEmail, {
-          withCredentials: true
-        })
-          .then(res => {
-            if(res.data.token){
-              localStorage.setItem("access-token", res.data.token)
-              setLoading(false);
-            }
-          })
-      } else {
-        // remove token
-        localStorage.removeItem("access-token")
-        setLoading(false);
-        axiosPublic.post('/logout', userEmail, {
-          withCredentials: true
-        })
-          .then(res => {console.log(res.data)})
+      // const userEmail = { email: currentUser?.email || user?.email }
+      // if (currentUser) {
+      //   // get token and store client
+      //   axiosPublic.post('/jwt', userEmail, { withCredentials: true })
+      //     .then(res => {
+      //       if(res.data.token){
+      //         localStorage.setItem("access-token", res.data.token)
+      //         setLoading(false);
+      //       }
+      //     })
+      // } else {
+      //   // remove token
+      //   localStorage.removeItem("access-token")
+      //   setLoading(false);
+      //   axiosPublic.post('/logout', userEmail, { withCredentials: true })
+      //     .then(res => {console.log(res.data)})
 
-      }
+      // }
+      setLoading(false);
     });
     return () => {
       unSubscribe();
