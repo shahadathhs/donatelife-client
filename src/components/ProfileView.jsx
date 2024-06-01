@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import useAuth from './../hooks/useAuth';
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ProfileView = () => {
+  const {user} = useAuth();
+
   return (
-    <div className="flex justify-center p-2 px-3 border-2 rounded-md hover:shadow-md">
-      <FlyoutLink href="#" FlyoutContent={PricingContent}>
-        Pricing
+    <div className="flex justify-center px-3">
+      <FlyoutLink FlyoutContent={PricingContent}>
+      <div className="avatar flex items-center">
+        <div className="w-[30px] rounded">
+          <img src={user.photoURL} alt="Tailwind-CSS-Avatar-component" />
+        </div>
+      </div>
       </FlyoutLink>
     </div>
   );
@@ -53,32 +62,49 @@ const FlyoutLink = ({ children, href, FlyoutContent }) => {
 };
 
 const PricingContent = () => {
+  const { logOut } = useAuth();
+  
+  const handleLogout = () =>{
+    Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            Swal.fire({
+              title: "Successful!",
+              text: "You have been successfully logout.",
+              icon: "success"
+            });
+          })
+          .catch(() => {
+            Swal.fire({
+              title: "Unsuccessful!",
+              text: "Au error detected. Try again",
+              icon: "error"
+            });
+          }); 
+      }
+    });
+  }
+
   return (
-    <div className="w-64 bg-white p-6 shadow-xl">
-      <div className="mb-3 space-y-3">
-        <h3 className="font-semibold">For Individuals</h3>
-        <a href="#" className="block text-sm hover:underline">
-          Introduction
-        </a>
-        <a href="#" className="block text-sm hover:underline">
-          Pay as you go
-        </a>
-      </div>
-      <div className="mb-6 space-y-3">
-        <h3 className="font-semibold">For Companies</h3>
-        <a href="#" className="block text-sm hover:underline">
-          Startups
-        </a>
-        <a href="#" className="block text-sm hover:underline">
-          SMBs
-        </a>
-        <a href="#" className="block text-sm hover:underline">
-          Enterprise
-        </a>
-      </div>
-      <button className="w-full rounded-lg border-2 border-neutral-950 px-4 py-2 font-semibold transition-colors hover:bg-neutral-950 hover:text-white">
-        Contact sales
-      </button>
+    <div className="w-40 bg-white p-3 z-50 shadow-xl space-y-2">
+      <motion.button
+        className="border-[1px] border-blue-600 rounded-md text-bold hover:shadow-md w-full text-blue-600"
+        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+      >  <Link to='/dashboard'>Dashboard</Link>
+      </motion.button>
+      <motion.button onClick={handleLogout}
+        className="border-[1px] border-blue-600 rounded-md text-bold hover:shadow-md w-full text-blue-600"
+        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+      > Logout
+      </motion.button>
     </div>
   );
 };
