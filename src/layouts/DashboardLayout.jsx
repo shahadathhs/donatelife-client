@@ -8,6 +8,7 @@ import { FaCodePullRequest } from "react-icons/fa6";
 import { BiSolidDonateBlood, BiSolidDonateHeart } from "react-icons/bi";
 import { AiOutlineFundProjectionScreen } from "react-icons/ai";
 import { RiAddLargeFill } from "react-icons/ri";
+import ThemeToggle from './../shared/ThemeToggle';
 
 const DashboardLayout = () => {
   const userRole = 'admin';
@@ -15,13 +16,20 @@ const DashboardLayout = () => {
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content border-[1px] border-blue-500 shadow-md m-2 rounded-md p-2">
+      <div className="drawer-content border-[1px] border-blue-500 shadow-md rounded-md m-2 p-2 min-h-[500px]">
         {/* Page content here */}
-        <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+          <div className="w-full text-center my-2">
+            <motion.label 
+            whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+            htmlFor="my-drawer-2" className="btn btn-outline text-blue-600 drawer-button lg:hidden">
+              Open DashBoard
+            </motion.label>
+          </div>
         <Outlet />
       </div> 
       <div className="drawer-side">
-        <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 
+        <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
         <ul className="menu p-4 w-60 min-h-full bg-blue-600 text-white space-y-2">
           {/* Sidebar content here */}
           {/* home links */}
@@ -35,7 +43,7 @@ const DashboardLayout = () => {
               <IoHomeOutline /> Back To Home
             </Link>
           </li>
-          
+          <ThemeToggle />
           <div className="divider text-black divider-neutral">OR</div>
           {/* dashboard */}
           <motion.li
