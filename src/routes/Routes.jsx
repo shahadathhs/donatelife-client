@@ -6,6 +6,7 @@ import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Dashboard from "../layouts/Dashboard";
 import PrivateRoutes from "./PrivateRoutes";
+import Funding from "../pages/private/Funding";
 
 
 
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/funding",
+        element: <PrivateRoutes><Funding /> </PrivateRoutes>,
       },
     ],
   },

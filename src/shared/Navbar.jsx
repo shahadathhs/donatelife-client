@@ -2,8 +2,12 @@ import { motion } from "framer-motion";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/icon/logo-2.png";
 import { BsMenuButtonWide } from "react-icons/bs";
+import useAuth from './../hooks/useAuth';
+import ProfileView from "../components/ProfileView";
 
 const Navbar = () => {
+  const { user } = useAuth();
+
   const navLinks =
   <>
     {/* blood donations */}
@@ -26,6 +30,30 @@ const Navbar = () => {
         ? 'border-2 text-bold hover:shadow-md' : 'border-0'}
       >Blogs</NavLink>
     </motion.li>
+    {/* funding */}
+    {
+      user
+      ?
+      <motion.li
+        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+        transition={{ type: 'spring', stiffness: 300 }}
+      >
+        <NavLink to="/funding"
+          className={({ isActive }) => isActive 
+          ? 'border-2 text-bold hover:shadow-md' : 'border-0'}
+        >Funding</NavLink>
+      </motion.li>
+      :
+      <motion.li
+        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+        transition={{ type: 'spring', stiffness: 300 }}
+      >
+        <NavLink to="/login"
+          className={({ isActive }) => isActive 
+          ? 'border-2 text-bold hover:shadow-md' : 'border-0'}
+        >Login</NavLink>
+      </motion.li>
+    }
   </>
 
   return (
@@ -39,9 +67,12 @@ const Navbar = () => {
       <div className="navbar-start">
         <div className="dropdown">
           {/* hamburger */}
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden text-2xl">
+          <motion.div 
+          whileHover={{ scale: 1.1, rotate: 0.125 }} whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          tabIndex={0} role="button" className="p-2 text-2xl lg:hidden">
             <BsMenuButtonWide />
-          </div>
+          </motion.div>
           {/* navLinks for sm/md */}
           <ul tabIndex={0} className="menu menu-sm dropdown-content 
           mt-3 z-[1] p-2 shadow rounded-box w-52 bg-blue-500">
@@ -51,23 +82,29 @@ const Navbar = () => {
         {/* logo for all devices */}
         <Link to="/">
           <motion.img
-            src={logo} alt="Logo" className="w-[50px] rounded-md"
+            src={logo} alt="Logo" className="w-[30px] rounded-md"
             whileHover={{ scale: 1.1, rotate: 0.125 }} whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           />
         </Link>
       </div>
       
-      {/* center */}
-      <div className="navbar-center hidden lg:flex">
+      
+      {/* end */}
+      <div className="navbar-end hidden lg:flex">
+        {/* user avatar */}
+        {
+          user
+          ?
+          <ProfileView />
+          :
+          undefined
+        }
+        {/* links */}
         <ul className="menu menu-horizontal px-1 gap-1">
           {navLinks}
         </ul>
-      </div>
-      
-      {/* end */}
-      <div className="navbar-end">
-        <Link className="btn">Login</Link>
+        {/* theme toggle */}
       </div>
     </motion.div>
   );
