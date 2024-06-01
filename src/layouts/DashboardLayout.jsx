@@ -1,6 +1,13 @@
 import { IoHomeOutline } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
+import { MdOutlineContentPasteGo, MdOutlineSpaceDashboard } from "react-icons/md";
+import { ImProfile } from "react-icons/im";
+import { FaBlog, FaSearch, FaUsers } from "react-icons/fa";
+import { FaCodePullRequest } from "react-icons/fa6";
+import { BiSolidDonateBlood, BiSolidDonateHeart } from "react-icons/bi";
+import { AiOutlineFundProjectionScreen } from "react-icons/ai";
+import { RiAddLargeFill } from "react-icons/ri";
 
 const DashboardLayout = () => {
   const userRole = 'admin';
@@ -38,7 +45,7 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard"
               className={({ isActive }) => isActive 
               ? 'text-bold hover:shadow-md' : undefined}
-            >Dashboard</NavLink>
+            ><MdOutlineSpaceDashboard />Dashboard</NavLink>
           </motion.li>
           {/* dashboard profile */}
           <motion.li
@@ -48,7 +55,7 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/profile"
               className={({ isActive }) => isActive 
               ? 'text-bold shadow-md' : undefined}
-            >Profile</NavLink>
+            ><ImProfile />Profile</NavLink>
           </motion.li>
 
           {/* role based links */}
@@ -60,7 +67,7 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/all-users"
               className={({ isActive }) => isActive 
               ? 'text-bold shadow-md' : undefined}
-            >All Users</NavLink>
+            ><FaUsers />All Users</NavLink>
           </motion.li>
           }
 
@@ -74,7 +81,7 @@ const DashboardLayout = () => {
               to="/dashboard/all-blood-donation-request"
               className={({ isActive }) => isActive ? 'text-bold shadow-md' : undefined}
             >
-              All Blood Donation Request
+              <FaCodePullRequest />All Blood Donation Request
             </NavLink>
           </motion.li>
           }
@@ -89,7 +96,7 @@ const DashboardLayout = () => {
               to="/dashboard/content-management"
               className={({ isActive }) => isActive ? 'text-bold shadow-md' : undefined}
             >
-              Content Management
+              <MdOutlineContentPasteGo />Content Management
             </NavLink>
           </motion.li>
           }
@@ -104,7 +111,7 @@ const DashboardLayout = () => {
               to="/dashboard/my-donation-requests"
               className={({ isActive }) => isActive ? 'text-bold shadow-md' : undefined}
             >
-              My Donation Requests
+              <BiSolidDonateBlood />My Donation Requests
             </NavLink>
           </motion.li>
           }
@@ -119,7 +126,7 @@ const DashboardLayout = () => {
               to="/dashboard/create-donation-request"
               className={({ isActive }) => isActive ? 'text-bold shadow-md' : undefined}
             >
-              Create Donation Requests
+              <RiAddLargeFill />Create Donation Requests
             </NavLink>
           </motion.li>
           }
@@ -134,7 +141,7 @@ const DashboardLayout = () => {
             <Link to="/donationRequests"
               className={({ isActive }) => isActive 
               ? 'border-2 text-bold hover:shadow-md' : undefined}
-            >Donation requests</Link>
+            ><BiSolidDonateHeart />Donation requests</Link>
           </motion.li>
           {/* blogs */}
           <motion.li
@@ -144,7 +151,7 @@ const DashboardLayout = () => {
             <Link to="/blogs"
               className={({ isActive }) => isActive 
               ? 'border-2 text-bold hover:shadow-md' : 'border-0'}
-            >Blogs</Link>
+            ><FaBlog />Blogs</Link>
           </motion.li>
           {/* funding */}
           <motion.li
@@ -154,7 +161,7 @@ const DashboardLayout = () => {
             <Link to="/funding"
               className={({ isActive }) => isActive 
               ? 'border-2 text-bold hover:shadow-md' : 'border-0'}
-            >Funding</Link>
+            ><AiOutlineFundProjectionScreen />Funding</Link>
           </motion.li>
           {/* search */}
           <motion.li
@@ -164,7 +171,7 @@ const DashboardLayout = () => {
             <Link to="/search"
               className={({ isActive }) => isActive 
               ? 'border-2 text-bold hover:shadow-md' : 'border-0'}
-            >Search</Link>
+            ><FaSearch />Search</Link>
           </motion.li>
         </ul>
       </div>
