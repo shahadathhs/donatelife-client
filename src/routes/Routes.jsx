@@ -17,6 +17,7 @@ import CreateDonationRequest from './../pages/dashboard/doner/CreateDonationRequ
 import AllUsers from "../pages/dashboard/admin/AllUsers";
 import AllDonationRequest from "../pages/dashboard/AllDonationRequest";
 import ContentManagement from "../pages/dashboard/ContentManagement";
+import DashboardProfile from "../pages/dashboard/DashboardProfile";
 
 
 
@@ -53,7 +54,7 @@ export const router = createBrowserRouter([
       },
       // private
       {
-        path: "/requestDetails",
+        path: "/requestDetails/:id",
         element: <PrivateRoutes><RequestDetails /> </PrivateRoutes>,
       },
       {
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <PrivateRoutes><Dashboard /> </PrivateRoutes>,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <PrivateRoutes><DashboardProfile /> </PrivateRoutes>,
       },
       // for donor
       {
