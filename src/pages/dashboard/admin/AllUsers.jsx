@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
 import { CiMenuKebab } from 'react-icons/ci';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -29,29 +30,133 @@ const AllUsers = () => {
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 2;
+    const totalUsers = users.length;
+    const totalPages = Math.ceil(totalUsers / rowsPerPage);
+    console.log(totalPages)
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
     const paginatedUsers = users.slice(start, end);
 
+
     // user role handle
-    const handleBlock = (userId) => {
-        // Implement block functionality
-        console.log('Block user:', userId);
+    const handleBlock = (user) => {
+        console.log('Block user:', user);
+        Swal.fire({
+          title: "Are you sure?",
+          text: `${user.name} will be blocked!`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, Block this user!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axiosSecure.patch(`/users/blocked/${user._id}`)
+            .then(res=> {
+              console.log(res.data)
+              if (res.data.modifiedCount > 0) {
+                refetch();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: `${user.name} is blocked now!`,
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+              }
+            })
+          }
+        });
     };
 
-    const handleUnblock = (userId) => {
-        // Implement unblock functionality
-        console.log('Unblock user:', userId);
+    const handleUnblock = (user) => {
+        console.log('Unblock user:', user);
+        Swal.fire({
+          title: "Are you sure?",
+          text: `${user.name} will be active!`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, Active this user!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axiosSecure.patch(`/users/active/${user._id}`)
+            .then(res=> {
+              console.log(res.data)
+              if (res.data.modifiedCount > 0) {
+                refetch();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: `${user.name} is active now!`,
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+              }
+            })
+          }
+        });
     };
 
-    const handleMakeVolunteer = (userId) => {
-        // Implement make volunteer functionality
-        console.log('Make user volunteer:', userId);
+    const handleMakeVolunteer = (user) => {
+      console.log('Make user volunteer:', user)
+      Swal.fire({
+        title: "Are you sure?",
+        text: `${user.name} will be an volunteer!`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Make Volunteer!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.patch(`/users/volunteer/${user._id}`)
+          .then(res=> {
+            console.log(res.data)
+            if (res.data.modifiedCount > 0) {
+              refetch();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${user.name} is a volunteer now!`,
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+          })
+        }
+      });
     };
 
-    const handleMakeAdmin = (userId) => {
-        // Implement make admin functionality
-        console.log('Make user admin:', userId);
+    const handleMakeAdmin = (user) => {
+        console.log('Make user admin:', user)
+        Swal.fire({
+          title: "Are you sure?",
+          text: `${user.name} will be an admin!`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, Make Admin!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axiosSecure.patch(`/users/admin/${user._id}`)
+            .then(res=> {
+              console.log(res.data)
+              if (res.data.modifiedCount > 0) {
+                refetch();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: `${user.name} is an admin now!`,
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+              }
+            })
+          }
+        });
     };
 
     return (
@@ -136,21 +241,21 @@ const AllUsers = () => {
                               <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 space-y-2">
                                   {/* block & Unblock */}
                                   {user.status === 'active' ? (
-                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleBlock(user._id)}>Block</a></li>
+                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleBlock(user)}>Block</a></li>
                                   ) : (
-                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleUnblock(user._id)}>Unblock</a></li>
+                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleUnblock(user)}>Unblock</a></li>
                                   )}
                                   {/* user role */}
 
                                   {user.role === 'donor' && (
                                     <>
-                                      <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeVolunteer(user._id)}>Make Volunteer</a></li>
-                                      <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeAdmin(user._id)}>Make Admin</a></li>
+                                      <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeVolunteer(user)}>Make Volunteer</a></li>
+                                      <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeAdmin(user)}>Make Admin</a></li>
                                     </>
                                   )}
                                   
                                   {user.role === 'volunteer' && (
-                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeAdmin(user._id)}>Make Admin</a></li>
+                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeAdmin(user)}>Make Admin</a></li>
                                   )}
 
                                   {user.role === 'admin' && undefined}
