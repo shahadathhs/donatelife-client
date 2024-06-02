@@ -16,7 +16,6 @@ const AddBlogs = () => {
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const {user} = useAuth();
-  console.log(user.displayName)
   const [title, setTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [summary, setSummary] = useState('');
@@ -79,23 +78,23 @@ const AddBlogs = () => {
           <form onSubmit={handleSubmit} className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <label>
               <div>Title:</div>
-              <input className='input input-bordered w-full' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <input required className='input input-bordered w-full' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
             </label>
             
             <label>
               <div>Thumbnail:</div>
-              <input className='file-input file-input-bordered file-input-primary w-full' type="file" onChange={handleThumbnailUpload} />
+              <input required className='file-input file-input-bordered file-input-primary w-full' type="file" onChange={handleThumbnailUpload} />
               {/* {thumbnail && <img src={thumbnail} alt="Thumbnail" />} */}
             </label>
             
             <label className='col-span-1 md:col-span-2'>
               <div>Summary:</div>
-              <textarea className='textarea textarea-bordered w-full' value={summary} onChange={(e) => setSummary(e.target.value)} />
+              <textarea required className='textarea textarea-bordered w-full' value={summary} onChange={(e) => setSummary(e.target.value)} />
             </label>
             
             <label className='col-span-1 md:col-span-2'>
               <div>Content:</div>
-              <JoditEditor value={content} onChange={setContent} />
+              <JoditEditor required value={content} onChange={setContent} />
             </label>
 
             <motion.input
