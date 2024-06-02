@@ -156,7 +156,6 @@ const Register = () => {
         });
     } catch (error) {
       console.error("Error uploading image: ", error);
-      // Handle the error appropriately
     }
   };
 

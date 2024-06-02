@@ -20,6 +20,7 @@ import ContentManagement from "../pages/dashboard/ContentManagement";
 import DashboardProfile from "../pages/dashboard/DashboardProfile";
 import AdminRoute from "./AdminRoute";
 import AdminVolunteerRoute from "./AdminVolunteerRoute";
+import AddBlogs from "../pages/dashboard/AddBlogs";
 
 
 
@@ -101,6 +102,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/content-management",
         element: <AdminVolunteerRoute><ContentManagement /> </AdminVolunteerRoute>,
+      },
+      {
+        path: "/dashboard/content-management/add-blog",
+        element: <AdminVolunteerRoute><AddBlogs /> </AdminVolunteerRoute>,
       }
     ]
   }
