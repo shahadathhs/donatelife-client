@@ -6,33 +6,32 @@ import { CiMenuKebab } from 'react-icons/ci';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 
 const AllUsers = () => {
-    const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
+
+    // filter
+    const [statusFilter, setStatusFilter] = useState('all');
     
     const { data: users = [], refetch } = useQuery({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const res = await axiosSecure.get('/users');
-            return res.data;
-        }
-    });
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const [statusFilter, setStatusFilter] = useState('all');
+      queryKey: ['users', statusFilter],
+      queryFn: async () => {
+        const res = await axiosSecure.get('/users', {
+          params: { status: statusFilter }
+        });
+        return res.data;
+      }
+    })
 
     const handleStatusFilter = (filter) => {
       setStatusFilter(filter);
       refetch();
     };
-
-    const filteredUsers = users.filter(user => {
-        if (statusFilter === 'all') return true;
-        return user.status === statusFilter;
-    });
     
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 2;
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    const paginatedUsers = filteredUsers.slice(start, end);
+    const paginatedUsers = users.slice(start, end);
 
     // user role handle
     const handleBlock = (userId) => {
@@ -134,18 +133,27 @@ const AllUsers = () => {
                               >
                                 <CiMenuKebab />
                               </button>
-                              <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                              <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 space-y-2">
+                                  {/* block & Unblock */}
                                   {user.status === 'active' ? (
-                                    <li><a onClick={() => handleBlock(user._id)}>Block</a></li>
+                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleBlock(user._id)}>Block</a></li>
                                   ) : (
-                                    <li><a onClick={() => handleUnblock(user._id)}>Unblock</a></li>
+                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleUnblock(user._id)}>Unblock</a></li>
                                   )}
-                                  {user.role !== 'volunteer' && (
-                                    <li><a onClick={() => handleMakeVolunteer(user._id)}>Make Volunteer</a></li>
+                                  {/* user role */}
+
+                                  {user.role === 'donor' && (
+                                    <>
+                                      <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeVolunteer(user._id)}>Make Volunteer</a></li>
+                                      <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeAdmin(user._id)}>Make Admin</a></li>
+                                    </>
                                   )}
-                                  {user.role !== 'admin' && (
-                                    <li><a onClick={() => handleMakeAdmin(user._id)}>Make Admin</a></li>
+                                  
+                                  {user.role === 'volunteer' && (
+                                    <li><a className="btn btn-sm btn-outline" onClick={() => handleMakeAdmin(user._id)}>Make Admin</a></li>
                                   )}
+
+                                  {user.role === 'admin' && undefined}
                               </ul>
                             </div>
                           </th>
