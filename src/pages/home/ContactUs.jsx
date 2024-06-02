@@ -54,7 +54,7 @@ const ContactUs = () => {
                   Name:
                 </label>
                 <input
-                  type="text" name="name" placeholder="Your Name"
+                  type="text" name="name" placeholder="Your Name" required
                   className="w-full input input-bordered focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -63,7 +63,7 @@ const ContactUs = () => {
                   Email:
                 </label>
                 <input
-                  type="email" name="email" placeholder="Your Email"
+                  type="email" name="email" placeholder="Your Email" required
                   className="w-full input input-bordered rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -72,7 +72,7 @@ const ContactUs = () => {
                   Message:
                 </label>
                 <textarea
-                  name="message" placeholder="Your Message"
+                  name="message" placeholder="Your Message" required
                   className="w-full textarea textarea-bordered rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 ></textarea>
               </div>

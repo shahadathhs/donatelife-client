@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import useAuth from './../hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 

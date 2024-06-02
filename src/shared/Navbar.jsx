@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/icon/logo-2.png";
 import { BsMenuButtonWide } from "react-icons/bs";
 import useAuth from './../hooks/useAuth';
-import ProfileView from "../components/ProfileView";
+import ProfileView from "./ProfileView";
 import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
