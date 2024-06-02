@@ -22,8 +22,8 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    const loginUser = {email, password};
-    console.table(loginUser)
+    //const loginUser = {email, password};
+    //console.table(loginUser)
 
     login(email, password)
       .then((result) => {

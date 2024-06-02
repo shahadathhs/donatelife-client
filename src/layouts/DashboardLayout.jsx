@@ -9,9 +9,30 @@ import { BiSolidDonateBlood, BiSolidDonateHeart } from "react-icons/bi";
 import { AiOutlineFundProjectionScreen } from "react-icons/ai";
 import { RiAddLargeFill } from "react-icons/ri";
 import ThemeToggle from './../shared/ThemeToggle';
+import { useEffect, useState } from "react";
+import useAuth from './../hooks/useAuth';
+import useAxiosSecure from './../hooks/useAxiosSecure';
 
 const DashboardLayout = () => {
-  const userRole = 'admin';
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user?.email) {
+        try {
+          const response = await axiosSecure.get(`/users/${user.email}`);
+          setUserRole(response.data.role);
+        } catch (err) {
+          console.error('Error fetching user data:', err);
+          setUserRole(null);
+        }
+      }
+    };
+
+    fetchData();
+  }, [user?.email, axiosSecure]);
 
   return (
     <div className="drawer lg:drawer-open">
