@@ -123,16 +123,24 @@ const Register = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
-          logOut();
-          Swal.fire({
-            title: 'Successful!',
-            text: 'New user successfully created. Now you can login!',
-            icon: 'success',
-            confirmButtonText: 'Cool',
-          });
-          updateUserProfile(name, imageUrl).then(() => {
-            navigate(from);
-          });
+          updateUserProfile(name, imageUrl)
+            .then(() => {
+              navigate(from);
+                // create user in database
+                axiosPublic.post("/users", userDetails)
+                .then(res => {
+                  console.log(res.data)
+                  if(res.data.insertedId){
+                    logOut();
+                    Swal.fire({
+                      title: 'Successful!',
+                      text: 'New user successfully created. Now you can login!',
+                      icon: 'success',
+                      confirmButtonText: 'Cool'
+                    })
+                  }
+                })
+              });
         })
         .catch((error) => {
           const errorCode = error.code;

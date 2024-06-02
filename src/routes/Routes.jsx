@@ -18,6 +18,7 @@ import AllUsers from "../pages/dashboard/admin/AllUsers";
 import AllDonationRequest from "../pages/dashboard/AllDonationRequest";
 import ContentManagement from "../pages/dashboard/ContentManagement";
 import DashboardProfile from "../pages/dashboard/DashboardProfile";
+import AdminRoute from "./AdminRoute";
 
 
 
@@ -89,7 +90,7 @@ export const router = createBrowserRouter([
       // for admin
       {
         path: "/dashboard/all-users",
-        element: <PrivateRoutes><AllUsers /> </PrivateRoutes>,
+        element: <AdminRoute><AllUsers /> </AdminRoute>,
       },
       // for admin and volunteer
       {
