@@ -19,6 +19,7 @@ import AllDonationRequest from "../pages/dashboard/AllDonationRequest";
 import ContentManagement from "../pages/dashboard/ContentManagement";
 import DashboardProfile from "../pages/dashboard/DashboardProfile";
 import AdminRoute from "./AdminRoute";
+import AdminVolunteerRoute from "./AdminVolunteerRoute";
 
 
 
@@ -95,11 +96,11 @@ export const router = createBrowserRouter([
       // for admin and volunteer
       {
         path: "/dashboard/all-blood-donation-request",
-        element: <PrivateRoutes><AllDonationRequest /> </PrivateRoutes>,
+        element: <AdminVolunteerRoute><AllDonationRequest /> </AdminVolunteerRoute>,
       },
       {
         path: "/dashboard/content-management",
-        element: <PrivateRoutes><ContentManagement /> </PrivateRoutes>,
+        element: <AdminVolunteerRoute><ContentManagement /> </AdminVolunteerRoute>,
       }
     ]
   }

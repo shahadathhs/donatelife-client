@@ -6,8 +6,10 @@ const Blogs = () => {
       <Helmet>
         <title>Blogs | DonateLife</title>
       </Helmet>
-      <div>
-        <h2>This is Blogs</h2>
+      <div className='pt-20'>
+        <div className='p-3'>
+          <h2>This is Blogs</h2>
+        </div>
       </div>
     </div>
   );
