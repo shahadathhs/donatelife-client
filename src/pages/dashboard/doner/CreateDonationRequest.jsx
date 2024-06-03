@@ -7,12 +7,34 @@ import { motion } from "framer-motion";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const CreateDonationRequest = () => {
+  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [userStatus, setUserStatus] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user?.email) {
+        try {
+          const response = await axiosSecure.get(`/users/${user.email}`);
+          setUserStatus(response.data.status);
+        } catch (err) {
+          console.error('Error fetching user data:', err);
+          setUserStatus(null);
+        }
+      }
+    };
+
+    fetchData();
+  }, [user?.email, axiosSecure]);
+  console.log(userStatus)
+
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
-  const axiosPublic = useAxiosPublic();
-  const { user } = useAuth();
   const [location] = useLocations();
   const [district, setDistrict] = useState('');
   const [upazilas, setUpazilas] = useState([]);
@@ -48,9 +70,40 @@ const CreateDonationRequest = () => {
       requesterMessage: form.requesterMessage.value,
       donationDate: format(new Date(startDate), "dd MMM yyyy"),
       donationTime: format(new Date(startTime), "hh:mm aa 'UTC'"),
+      status: "pending"
     };
-
     console.log(donationRequest);
+    if (userStatus === "active" ) {
+      axiosPublic.post("/donationRequests", donationRequest)
+      .then(res => {
+        console.log(res)
+        if(res.data.insertedId){
+          Swal.fire({
+            title: 'Successful!',
+            text: 'Donation Request Created Successfully!',
+            icon: 'success',
+            confirmButtonText: 'Cool'
+          })
+          form.reset()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to create donation request. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'Okay'
+        })
+      })
+    }else{
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to create donation request. You are blocked.',
+        icon: 'error',
+        confirmButtonText: 'Okay'
+      })
+    }
   };
 
   return (

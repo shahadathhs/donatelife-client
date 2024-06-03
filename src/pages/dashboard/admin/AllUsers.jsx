@@ -222,8 +222,8 @@ const AllUsers = () => {
                             </div>
                           </td>
                           {/* status & role */}
-                          <td>{user.status}</td>
                           <td>{user.role}</td>
+                          <td>{user.status}</td>
                           {/* action */}
                           <th>
                             <div className="dropdown dropdown-end">
