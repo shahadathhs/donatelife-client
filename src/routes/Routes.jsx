@@ -23,8 +23,6 @@ import AdminVolunteerRoute from "./AdminVolunteerRoute";
 import AddBlogs from "../pages/dashboard/AddBlogs";
 import BlogDetails from "../pages/public/BlogDetails";
 
-
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -65,6 +63,7 @@ export const router = createBrowserRouter([
       {
         path: "/requestDetails/:id",
         element: <PrivateRoutes><RequestDetails /> </PrivateRoutes>,
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/donationRequests/${params.id}`)
       },
       {
         path: "/funding",
