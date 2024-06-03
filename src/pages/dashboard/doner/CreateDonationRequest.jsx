@@ -72,11 +72,11 @@ const CreateDonationRequest = () => {
       donationTime: format(new Date(startTime), "hh:mm aa 'UTC'"),
       status: "pending"
     };
-    console.log(donationRequest);
+    //console.log(donationRequest);
     if (userStatus === "active" ) {
       axiosPublic.post("/donationRequests", donationRequest)
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         if(res.data.insertedId){
           Swal.fire({
             title: 'Successful!',
