@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import useAxiosPublic from './../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
@@ -9,7 +8,6 @@ import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 
 const ContentManagement = () => {
-  const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [userRole, setUserRole] = useState(null);
@@ -30,15 +28,13 @@ const ContentManagement = () => {
     fetchData();
   }, [user?.email, axiosSecure]);
 
-  console.log(userRole)
-
   // filter
   const [filter, setFilter] = useState('all');
 
   const {data: blogs = [], refetch} = useQuery({
     queryKey: ['blogs', filter ],
     queryFn: async() => {
-      const res = await axiosPublic.get('/blogs',{
+      const res = await axiosSecure.get('/dashboard/blogs',{
         params: { status: filter }
       });
       return res.data
@@ -53,9 +49,9 @@ const ContentManagement = () => {
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 3;
-  const totalBlogs = blogs.length;
-  const totalPages = Math.ceil(totalBlogs / rowsPerPage);
-  console.log(totalPages)
+  //const totalBlogs = blogs.length;
+  //const totalPages = Math.ceil(totalBlogs / rowsPerPage);
+  //console.log(totalPages)
   const start = (currentPage - 1) * rowsPerPage;
   const end = start + rowsPerPage;
   const paginatedBlogs = blogs.slice(start, end);
@@ -178,7 +174,10 @@ const ContentManagement = () => {
                   {/* status & author */}
                   <td>{blog.status}</td>
                   <td>{blog.author}</td>
-                  <td>{blog.summary.slice(0,20)}</td>
+                  <td>
+                    {blog.summary.slice(0,20)}<br />
+                    {blog.summary.slice(21,40)}
+                  </td>
                   {/* action */}
                   <th>
                     {blog.status === 'draft'

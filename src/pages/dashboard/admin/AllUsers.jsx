@@ -29,10 +29,10 @@ const AllUsers = () => {
     
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 2;
-    const totalUsers = users.length;
-    const totalPages = Math.ceil(totalUsers / rowsPerPage);
-    console.log(totalPages)
+    const rowsPerPage = 3;
+    //const totalUsers = users.length;
+    //const totalPages = Math.ceil(totalUsers / rowsPerPage);
+    //console.log(totalPages)
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
     const paginatedUsers = users.slice(start, end);
