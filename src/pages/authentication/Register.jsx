@@ -156,6 +156,11 @@ const Register = () => {
         });
     } catch (error) {
       console.error("Error uploading image: ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error uploading image!"
+      });
     }
   };
 

@@ -10,52 +10,67 @@ import moment from 'moment';
 import useAuth from '../../hooks/useAuth';
 
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`
+const imageHostingAPI = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 const AddBlogs = () => {
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [title, setTitle] = useState('');
-  const [thumbnail, setThumbnail] = useState('');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
+  const [thumbnailFile, setThumbnailFile] = useState(null);
 
-  const handleThumbnailUpload = async (event) => {
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      // Upload the image to imgbb
+      // Upload the thumbnail
+    let thumbnailUrl = '';
+    if (thumbnailFile) {
+      const formData = new FormData();
+      formData.append('image', thumbnailFile);
       const res = await axiosPublic.post(imageHostingAPI, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      setThumbnail(res.data.data.display_url);
-    }catch (error) {
-      console.error("Error uploading image: ", error);
+      thumbnailUrl = res.data.data.display_url;
     }
-  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+    // Create the new blog object
     const currentDate = moment().format('YYYY-MM-DD');
-    const newBlog = { title, thumbnail, summary, content, author: user.displayName, date: currentDate, status: 'draft' };
+    const newBlog = { title, thumbnail: thumbnailUrl, summary, content, 
+      author: user.displayName, authorImage: user.photoURL, 
+      date: currentDate, status: 'draft' };
     console.log(newBlog)
+
+    // Submit the new blog
     await axiosSecure.post('/blogs', newBlog).then(res => {
-      console.log(res.data)
-      if(res.data.insertedId){
+      if (res.data.insertedId) {
+        console.log(res.data)
         Swal.fire({
           title: 'Successful!',
           text: 'New blog successfully added!',
           icon: 'success',
           confirmButtonText: 'Cool'
-        })
+        });
       }
     });
+
+    // Reset the form
     event.target.reset();
+    setTitle('');
+    setSummary('');
+    setContent('');
+    setThumbnailFile(null);
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error uploading image!"
+      });
+    }
   };
 
   return (
@@ -64,7 +79,6 @@ const AddBlogs = () => {
         <title>Add Blog | DonateLife</title>
       </Helmet>
       <div>
-        {/* top content */}
         <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
           <h2 className="text-xl shadow-md p-2">Add Blog related to Blood Donation!</h2>
           <Link to="/dashboard/content-management" 
@@ -73,7 +87,6 @@ const AddBlogs = () => {
             Back to Content Management
           </Link>
         </div>
-        {/* form */}
         <div className='mt-4 space-y-3'>
           <form onSubmit={handleSubmit} className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <label>
@@ -83,8 +96,7 @@ const AddBlogs = () => {
             
             <label>
               <div>Thumbnail:</div>
-              <input required className='file-input file-input-bordered file-input-primary w-full' type="file" onChange={handleThumbnailUpload} />
-              {/* {thumbnail && <img src={thumbnail} alt="Thumbnail" />} */}
+              <input required className='file-input file-input-bordered file-input-primary w-full' type="file" onChange={(e) => setThumbnailFile(e.target.files[0])} />
             </label>
             
             <label className='col-span-1 md:col-span-2'>
