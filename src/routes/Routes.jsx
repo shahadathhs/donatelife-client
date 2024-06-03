@@ -21,6 +21,7 @@ import DashboardProfile from "../pages/dashboard/DashboardProfile";
 import AdminRoute from "./AdminRoute";
 import AdminVolunteerRoute from "./AdminVolunteerRoute";
 import AddBlogs from "../pages/dashboard/AddBlogs";
+import BlogDetails from "../pages/public/BlogDetails";
 
 
 
@@ -54,6 +55,11 @@ export const router = createBrowserRouter([
       {
         path: "/blogs",
         element: <Blogs />
+      },
+      {
+        path: "/blogsDetails/:id",
+        element: <BlogDetails />,
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/blogs/${params.id}`)
       },
       // private
       {

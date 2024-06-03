@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hoverText {
+  @layer transition-colors, duration-350;
+}
+
+.hoverText:hover {
+  @apply font-black text-red-500;
+}
+
+.hoverText:hover + .hoverText {
+  @apply font-medium text-blue-300;
+}
+
+.hoverText:hover + .hoverText + .hoverText {
+  @apply font-light;
+}
+
+.hoverText:has(+ .hoverText:hover) {
+  @apply font-medium text-blue-300;
+}
+
+.hoverText:has(+ .hoverText + .hoverText:hover) {
+  @apply font-light;
+}
