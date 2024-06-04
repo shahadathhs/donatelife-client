@@ -226,7 +226,7 @@ const EditRequest = () => {
             </div>
             
             <motion.input
-              type="submit" value="Create Request"
+              type="submit" value="Update Request"
               className="font-bold btn btn-outline text-blue-600 hover:shadow-md"
               whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
             />
