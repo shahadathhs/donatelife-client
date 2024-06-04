@@ -114,9 +114,10 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div className="m-2 p-2 border-2 rounded-md">
-      <h2 className="text-center font-semibold text-xl text-blue-600">Donate Fund</h2>
-      <form onSubmit={handleSubmit} className="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-9">
+    <div className="m-2 p-2 shadow-sm rounded-md">
+      <h2 className="text-center font-semibold text-3xl text-blue-600">Donate Fund</h2>
+      <form onSubmit={handleSubmit} 
+      className="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-9 border-2 p-3 mt-6 rounded-md hover:shadow-sm">
         <div>
           <label className="label">
             Fund Amount (USD)
