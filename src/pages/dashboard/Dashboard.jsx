@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
+import { FaEdit } from "react-icons/fa";
+import { FcViewDetails } from "react-icons/fc";
 
 const Dashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -143,17 +145,21 @@ const Dashboard = () => {
         <div>
           {userRole === "donor"&&
           <div>
+            <h2 className="text-center text-xl text-blue-600 p-4">Your recent donation requests:</h2>
             <div className="overflow-x-auto">
               <table className="table table-zebra">
                 {/* head */}
                 <thead>
                   <tr>
                     <th>Recipient name</th>
-                    <th>Recipient location</th>
-                    <th>Donation Date & Time</th>
-                    <th>Donation Status</th>
+                    <th>Location</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                    <th>Donor</th>
                     <th>Edit Status</th>
                     <th>Delete</th>
+                    <th>Edit</th>
+                    <th>Details</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -164,6 +170,17 @@ const Dashboard = () => {
                     <td>{single.recipientUpazila} , <br /> {single.recipientDistrict}</td>
                     <td>{single.donationDate} <br /> {single.donationTime}</td>
                     <td>{single.status}</td>
+                    
+                    {
+                      single.status === "inprogress"
+                      ?
+                      <td>
+                        {single.donorName} <br /> {single.donorEmail}
+                      </td>
+                      :
+                      <td>Not Inprogress</td>
+                    }
+                    
                     {
                       single.status === "inprogress"
                       ?
@@ -180,11 +197,22 @@ const Dashboard = () => {
                         </div>
                       </td>
                       :
-                      <td>NOT INPROGRESS</td>
+                      <td>Not Inprogress</td>
                     }
+                    {/* delete */}
                     <td>
                       <button  className="btn btn-sm btn-outline text-red-600" onClick={() => handleDelete(single)}
                       > <MdDelete /> </button>
+                    </td>
+                    {/* edit */}
+                    <td>
+                      <Link to={`/dashboard/donationRequest/${single._id}`}
+                       className="btn btn-sm btn-outline text-orange-600"
+                      > <FaEdit /> </Link>
+                    </td>
+                    {/* details */}
+                    <td> 
+                      <Link to={`/requestDetails/${single._id}`} className="btn btn-sm btn-outline text-indigo-500"><FcViewDetails /></Link> 
                     </td>
                   </tr>
                   )}
