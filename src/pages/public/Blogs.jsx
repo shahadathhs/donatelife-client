@@ -3,17 +3,25 @@ import { Helmet } from 'react-helmet-async';
 import useAxiosPublic from './../../hooks/useAxiosPublic';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Blogs = () => {
   const axiosPublic = useAxiosPublic()
-  const {data: publicBlogs = []} = useQuery({
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const { data: publicBlogs = [] } = useQuery({
     queryKey: ['publicBlogs'],
-    queryFn: async() => {
+    queryFn: async () => {
       const res = await axiosPublic.get('/blogs');
-      return res.data
+      return res.data;
     }
-  })
-  console.log(publicBlogs)
+  });
+ 
+  useEffect(() => {
+    const publishedBlogs = publicBlogs.filter(blog => blog.status === 'published');
+    setFilteredBlogs(publishedBlogs);
+  }, [publicBlogs]);
+ 
+  console.log(filteredBlogs);
 
   return (
     <div>
@@ -37,14 +45,14 @@ const Blogs = () => {
                     className="w-full rounded-md shadow-md flex flex-col md:flex-row
                     items-center
                     dark:bg-gray-900 dark:text-gray-100">
-                <img src={publicBlogs[0]?.thumbnail} alt="" className="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 dark:bg-gray-500" />
+                <img src={filteredBlogs[0]?.thumbnail} alt="" className="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 dark:bg-gray-500" />
                 <div className="p-6 space-y-2 lg:col-span-5">
                   <h3 className="text-2xl font-semibold sm:text-4xl group-hover:underline group-focus:underline">
-                    {publicBlogs[0]?.title}
+                    {filteredBlogs[0]?.title}
                   </h3>
-                  <span className="text-xs dark:text-gray-400">{publicBlogs[0]?.date}</span>
-                  <p>{publicBlogs[0]?.summary}</p>
-                  <Link to={`/blogsDetails/${publicBlogs[0]?._id}`} type="button" 
+                  <span className="text-xs dark:text-gray-400">{filteredBlogs[0]?.date}</span>
+                  <p>{filteredBlogs[0]?.summary}</p>
+                  <Link to={`/blogsDetails/${filteredBlogs[0]?._id}`} type="button" 
                     className="btn btn-outline text-blue-500">Read more</Link>
                 </div>
               </motion.a>
@@ -52,7 +60,7 @@ const Blogs = () => {
               <div
               className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {
-                  publicBlogs.slice(1).map(blog=>
+                  filteredBlogs.slice(1).map(blog=>
                     <motion.div key={blog._id}
                     whileHover={{
                       scale: 1.05,
