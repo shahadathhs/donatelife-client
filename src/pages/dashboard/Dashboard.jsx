@@ -42,7 +42,6 @@ const Dashboard = () => {
   })
   const lastThreeReversed = donorRequest.slice(-3).reverse();
   //console.log(lastThreeReversed);
-
   // manage status
   const handleDone = singleRequest => {
     console.log("status done", singleRequest)
@@ -73,7 +72,6 @@ const Dashboard = () => {
       }
     });
   }
-
   const handleCancel = singleRequest => {
     console.log("status cancel", singleRequest)
     Swal.fire({
@@ -103,10 +101,35 @@ const Dashboard = () => {
       }
     });
   }
-
   // delete request
   const handleDelete = singleRequest => {
     console.log("request delete", singleRequest)
+    Swal.fire({
+      title: "Are you sure?",
+      text: `This request will be permanently deleted!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete this request!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/donationRequests/${singleRequest._id}`)
+        .then(res=> {
+          console.log(res.data)
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `This request has been deleted!`,
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        })
+      }
+    });
   }
 
   return (
