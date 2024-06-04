@@ -164,7 +164,7 @@ const AllUsers = () => {
             <Helmet>
                 <title>All Users | DonateLife</title>
             </Helmet>
-            <div>
+            <div> 
                 {/* banner */}
                 <div className="hero">
                   <div className="hero-content text-center">

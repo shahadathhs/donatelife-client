@@ -15,7 +15,7 @@ const Funding= () => {
       return res.data
     }
   })
-  console.log(funding)
+  // console.log(funding)
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
