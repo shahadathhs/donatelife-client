@@ -22,6 +22,7 @@ import AdminRoute from "./AdminRoute";
 import AdminVolunteerRoute from "./AdminVolunteerRoute";
 import AddBlogs from "../pages/dashboard/AddBlogs";
 import BlogDetails from "../pages/public/BlogDetails";
+import GiveFund from "../pages/private/GiveFund";
 
 export const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
       {
         path: "/funding",
         element: <PrivateRoutes><Funding /> </PrivateRoutes>,
+      },
+      {
+        path: "/funding/giveFund",
+        element: <PrivateRoutes><GiveFund /> </PrivateRoutes>,
       },
     ],
   },
