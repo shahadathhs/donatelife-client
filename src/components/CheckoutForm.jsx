@@ -8,7 +8,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const CheckoutForm = () => {
   const [error, setError] = useState('');
-  const [fundingAmount, setFundingAmount] = useState('');
+  const [fundingAmount, setFundingAmount] = useState();
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
@@ -94,7 +94,7 @@ const CheckoutForm = () => {
           name: user.displayName,
           email: user.email,
           transactionId: paymentIntent.id,
-          fundAmount: fundingAmount,
+          fundAmount: parseInt(fundingAmount),
           fundingDate: formattedDate
         }
 
