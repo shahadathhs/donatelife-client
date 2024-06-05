@@ -15,6 +15,28 @@
 - **UserEmail:** <admin@gmail.com>
 - **Password:** 123@as
 
+## Tools & Technology
+
+- For Frontend:
+  - HTML
+  - CSS
+  - Tailwind CSS
+    - DaisyUI
+    - Mamba UI
+  - JavaScript
+  - React.js
+  - Farmar Motion
+    - hover.dev
+  - React Router
+  - TanStack Query
+- For Backend:
+  - Node.js
+  - MangoDB
+  - Express.js
+  - JSON Web Token
+- For Payment system:
+  - Stripe Payment method
+
 ## Features
 
 1. **User Authentication:**
@@ -36,7 +58,7 @@
    - Private routes for authenticated users.
 
 3. **Profile Management:**
-   - Users can view and update their profiles.
+   - Users can view and update their profiles except email.
    - Profile includes name, email, avatar, address, and blood group.
 
 4. **Donor Dashboard:**
@@ -52,7 +74,8 @@
 
 6. **Volunteer Dashboard:**
    - Similar to the Admin Dashboard but with restricted permissions.
-   - Volunteers can only update the donation status and manage content.
+   - Volunteers can only update the donation status in all blood donation request page of dashboard.
+   - Volunteers can only add blogs in content management and can not publish them.
 
 7. **Public Pages:**
    - Home page with navigation, banner, featured section, contact form, and footer.
@@ -64,23 +87,15 @@
    - Displays all funds made by users in a tabular form.
    - Allows users to give funds for the organization using Stripe payment method.
 
-9. **Tools & Tecnology :**
-    - For Frontend:
-      - HTML
-      - CSS
-      - Tailwind CSS
-        - DaisyUI
-        - Mamba UI
-      - JavaScript
-      - React.js
-      - Farmar Motion
-        - hover.dev
-      - React Router
-      - TanStack Query
-    - For Backend:
-      - Node.js
-      - MangoDB
-      - Express.js
-      - JSON Web Token
-    - For Payment system:
-      - Stripe Payment method
+9. **Pagination and Filtering:**
+   - Pagination feature ensures smooth navigation through large datasets, enhancing user experience.
+   - Filtering options empower users to refine their search results, improving efficiency.
+
+10. **Enhanced Security with JWT:**
+
+- Implementation of JSON Web Tokens (JWT) ensures secure authentication and authorization.
+- Token-based authentication provides a robust layer of security for private APIs.
+
+#
+
+This Blood Donation Application, built with modern technologies, connects donors with those in need, streamlining the donation process. Through user authentication and personalized dashboards, it ensures a seamless experience for users. Public pages like the Home, Search, and Blog pages foster community engagement and awareness. The Private Funding Page promotes transparency in contributions, while features like Pagination and Filtering enhance user interactions. In conclusion, this application leverages technology to save lives and inspire hope, embodying the ethos that Every Drop Counts.
