@@ -10,6 +10,11 @@
 - <https://donatelife-f661c.web.app>
 - <https://donatelife-f661c.firebaseapp.com>
 
+## Server Side Code
+
+- <https://donatelife-f661c.web.app>
+- <https://donatelife-f661c.firebaseapp.com>
+
 ## Admin Credentials
 
 - **UserEmail:** <admin@gmail.com>
