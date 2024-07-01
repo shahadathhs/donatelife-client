@@ -12,8 +12,7 @@
 
 ## Server Side Code
 
-- <https://donatelife-f661c.web.app>
-- <https://donatelife-f661c.firebaseapp.com>
+- <https://github.com/shahadathhs/donatelife-server>
 
 ## Admin Credentials
 
