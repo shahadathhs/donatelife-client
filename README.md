@@ -63,13 +63,7 @@
 5. **Start the development server**
 
    ```bash
-   npm start
-   ```
-
-6. **Open your browser and navigate to**
-
-   ```
-   http://localhost:3000
+   npm run dev
    ```
 
 ### Running the Backend Locally
