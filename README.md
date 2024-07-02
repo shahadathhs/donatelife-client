@@ -1,101 +1,81 @@
 
 # DonateLife | Every Drops Count
 
-## Assignment Category
+- Live Site URL: [DonateLife](https://donatelife-f661c.web.app)
 
-- assignment12_category_0001
+- Tools & Technology
+   - HTML
+   - CSS
+   - Tailwind CSS
+   - JavaScript
+   - React.js
+   - React Router
+   - Farmer Motion
+   - TanStack Query
 
-## Live Site URL
+- Admin Credentials
+   - UserEmail: <admin@gmail.com>
+   - Password: 123@as
 
-- <https://donatelife-f661c.web.app>
-- <https://donatelife-f661c.firebaseapp.com>
+## How to run locally
 
-## Admin Credentials
+### Prerequisites
 
-- **UserEmail:** <admin@gmail.com>
-- **Password:** 123@as
+- Node.js (v14 or higher)
+- MongoDB (local or Atlas)
+- Stripe account for payment integration
 
-## Tools & Technology
+### Running the Frontend Locally
 
-- For Frontend:
-  - HTML
-  - CSS
-  - Tailwind CSS
-    - DaisyUI
-    - Mamba UI
-  - JavaScript
-  - React.js
-  - Farmar Motion
-    - hover.dev
-  - React Router
-  - TanStack Query
-- For Backend:
-  - Node.js
-  - MangoDB
-  - Express.js
-  - JSON Web Token
-- For Payment system:
-  - Stripe Payment method
+- 
+
+### Running the Backend Locally
+
+- Visit server repository: [Server Repository on GitHub](https://github.com/shahadathhs/donatelife-server)
 
 ## Features
 
-1. **User Authentication:**
+- User Authentication:
+  - Email and password login.
+  - Detailed registration with email, name, avatar, blood group, district, upazila, and password.
 
-   - Login with email and password.
-   - Registration and login pages provided.
-   - Users can register with the following information:
-     - Email
-     - Name
-     - Avatar
-     - Blood group
-     - District
-     - Upazila
-     - Password
+- Dashboards:
+  - Separate dashboards for Admins, Donors, and Volunteers.
+  - Responsive layouts and private routes.
 
-2. **Dashboard:**
-   - Separate dashboards for Admin, Donor, and Volunteer.
-   - Responsive layout for mobile, tablet, and desktop views.
-   - Private routes for authenticated users.
+- Profile Management:
+  - View and update profiles (excluding email).
 
-3. **Profile Management:**
-   - Users can view and update their profiles except email.
-   - Profile includes name, email, avatar, address, and blood group.
+- Donor Dashboard:
+  - Displays welcome message, recent donation requests, and creation form.
 
-4. **Donor Dashboard:**
-   - Displays a welcome message with the donor's name.
-   - Shows maximum 3 recent donation requests created by the donor.
-   - Allows donors to view all of their donation requests.
-   - Provides a form to create a new donation request.
+- Admin Dashboard:
+  - Manages users, donation requests, and content with full CRUD operations.
 
-5. **Admin Dashboard:**
-   - Displays welcome section and featured cards with statistics.
-   - Allows admins to manage users, donation requests, and content.
-   - Provides CRUD operations for users, donation requests, and blogs.
+- Volunteer Dashboard:
+  - Restricted permissions for updating donation status and adding blogs.
 
-6. **Volunteer Dashboard:**
-   - Similar to the Admin Dashboard but with restricted permissions.
-   - Volunteers can only update the donation status in all blood donation request page of dashboard.
-   - Volunteers can only add blogs in content management and can not publish them.
+- Public Pages:
+  - Home, search, donation requests, and blog pages.
 
-7. **Public Pages:**
-   - Home page with navigation, banner, featured section, contact form, and footer.
-   - Search page for finding donors based on blood group, district, and upazila.
-   - Blood Donation Requests page showing pending requests with view details option.
-   - Blog page displaying published blogs with detailed view option.
+- Private Funding Page:
+  - Displays funds and allows Stripe payments.
 
-8. **Private Funding Page:**
-   - Displays all funds made by users in a tabular form.
-   - Allows users to give funds for the organization using Stripe payment method.
+- Pagination and Filtering:
+  - Enhances navigation and search efficiency.
 
-9. **Pagination and Filtering:**
-   - Pagination feature ensures smooth navigation through large datasets, enhancing user experience.
-   - Filtering options empower users to refine their search results, improving efficiency.
+- Enhanced Security with JWT:
+  - Secure authentication and authorization for private APIs.
 
-10. **Enhanced Security with JWT:**
+## Contributing
 
-- Implementation of JSON Web Tokens (JWT) ensures secure authentication and authorization.
-- Token-based authentication provides a robust layer of security for private APIs.
+If you would like to contribute to this project, please follow these steps:
 
-#
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes.
+4. Submit a pull request.
 
-This Blood Donation Application, built with modern technologies, connects donors with those in need, streamlining the donation process. Through user authentication and personalized dashboards, it ensures a seamless experience for users. Public pages like the Home, Search, and Blog pages foster community engagement and awareness. The Private Funding Page promotes transparency in contributions, while features like Pagination and Filtering enhance user interactions. In conclusion, this application leverages technology to save lives and inspire hope, embodying the ethos that Every Drop Counts.
+## Contact
+
+For any inquiries, please reach out to Shahadath Hossen Sajib at <shahadathhossensajib732@gmail.com>.
